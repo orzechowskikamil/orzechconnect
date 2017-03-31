@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FA382477-17AE-4693-9B52-EB4DB48232E5}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OrzechowskiKamil.OrzechConnect.Lib</RootNamespace>
+    <AssemblyName>OrzechowskiKamil.OrzechConnect.Lib</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="mscorlib.extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppGlobalData.cs" />
+    <Compile Include="BackgroundWorker.cs" />
+    <Compile Include="ChainOfResponsibility.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="DataStorage\ArchiveFile.cs" />
+    <Compile Include="DataStorage\BackgroundWorkerData.cs" />
+    <Compile Include="DataStorage\ContactListDocument.cs" />
+    <Compile Include="DataStorage\DataStorage.cs" />
+    <Compile Include="Connection\Connection.cs" />
+    <Compile Include="Connection\GaduGaduActiveServers.cs" />
+    <Compile Include="Connection\PacketManager.cs" />
+    <Compile Include="Connection\TcpSocketAsync.cs" />
+    <Compile Include="Connection\WebTextRequestAsync.cs" />
+    <Compile Include="DataStorage\MainApplicationSettings.cs" />
+    <Compile Include="DataStorage\XmlFileStorage.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="Exceptions\MetroGaduExceptions.cs" />
+    <Compile Include="InPackets\AdditionalUserData.cs" />
+    <Compile Include="InPackets\Disconnected.cs" />
+    <Compile Include="InPackets\GG_NOTIFY_REPLY_80.cs" />
+    <Compile Include="InPackets\GG_PING.cs" />
+    <Compile Include="InPackets\GG_SEND_MSG_ACK.cs" />
+    <Compile Include="InPackets\GG_USERLIST100_REPLY.cs" />
+    <Compile Include="InPackets\GG_WELCOME.cs" />
+    <Compile Include="InPackets\InTcpPacket.cs" />
+    <Compile Include="InPackets\InTypingNotify.cs" />
+    <Compile Include="InPackets\LoginFail.cs" />
+    <Compile Include="InPackets\LoginSuccess.cs" />
+    <Compile Include="InPackets\MyMessageFromOtherClient.cs" />
+    <Compile Include="InPackets\ReceivedMessage.cs" />
+    <Compile Include="InPackets\UnusedPackets.cs" />
+    <Compile Include="Internals\ContactsList.cs" />
+    <Compile Include="Internals\Fmt.cs" />
+    <Compile Include="LiveTile.cs" />
+    <Compile Include="Vendors\Cp1250.cs" />
+    <Compile Include="Internals\Deflate.cs" />
+    <Compile Include="Internals\DiagnosticHelper.cs" />
+    <Compile Include="Internals\GGCredentials.cs" />
+    <Compile Include="Internals\GGStatus.cs" />
+    <Compile Include="Internals\NullTerminatedBinaryReader.cs" />
+    <Compile Include="Internals\NullTerminatedBinaryWriter.cs" />
+    <Compile Include="Internals\TcpStruct.cs" />
+    <Compile Include="Internals\Timer.cs" />
+    <Compile Include="Internals\XmlHelper.cs" />
+    <Compile Include="MetroGaduLibStrings.cs" />
+    <Compile Include="OutPackets\AddNotify.cs" />
+    <Compile Include="OutPackets\GG_LIST_EMPTY.cs" />
+    <Compile Include="OutPackets\GG_NOTIFY_FIRST.cs" />
+    <Compile Include="OutPackets\GG_NOTIFY_LAST.cs" />
+    <Compile Include="OutPackets\GG_PONG.cs" />
+    <Compile Include="OutPackets\GG_USERLIST_100_REQUEST.cs" />
+    <Compile Include="OutPackets\IReceivedMessageAck.cs" />
+    <Compile Include="OutPackets\Login.cs" />
+    <Compile Include="OutPackets\OutTcpPacket.cs" />
+    <Compile Include="OutPackets\OutTypingNotify.cs" />
+    <Compile Include="OutPackets\RemoveNotify.cs" />
+    <Compile Include="OutPackets\SendMessage.cs" />
+    <Compile Include="OutPackets\SetStatus.cs" />
+    <Compile Include="Processess\GetContactsListProcess.cs" />
+    <Compile Include="Processess\GetOurContactStatusesProcess.cs" />
+    <Compile Include="Processess\LoginProcess.cs" />
+    <Compile Include="Processess\MessageManager.cs" />
+    <Compile Include="Processess\PingProcess.cs" />
+    <Compile Include="Processess\Process.cs" />
+    <Compile Include="Processess\SetStatusProcess.cs" />
+    <Compile Include="Vendors\ZLIB.net\Adler32.cs" />
+    <Compile Include="Vendors\ZLIB.net\Deflate.cs" />
+    <Compile Include="Vendors\ZLIB.net\InfBlocks.cs" />
+    <Compile Include="Vendors\ZLIB.net\InfCodes.cs" />
+    <Compile Include="Vendors\ZLIB.net\Inflate.cs" />
+    <Compile Include="Vendors\ZLIB.net\InfTree.cs" />
+    <Compile Include="Vendors\ZLIB.net\StaticTree.cs" />
+    <Compile Include="Vendors\ZLIB.net\SupportClass.cs" />
+    <Compile Include="Vendors\ZLIB.net\Tree.cs" />
+    <Compile Include="Vendors\ZLIB.net\ZInputStream.cs" />
+    <Compile Include="Vendors\ZLIB.net\Zlib.cs" />
+    <Compile Include="Vendors\ZLIB.net\ZOutputStream.cs" />
+    <Compile Include="Vendors\ZLIB.net\ZStream.cs" />
+    <Compile Include="Vendors\ZLIB.net\ZStreamException.cs" />
+    <Compile Include="Navigation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

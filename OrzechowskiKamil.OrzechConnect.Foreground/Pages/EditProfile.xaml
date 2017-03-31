@@ -1,0 +1,80 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="OrzechowskiKamil.OrzechConnect.Foreground.ViewModels.EditProfile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+		xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    shell:SystemTray.IsVisible="False">
+
+	<!--LayoutRoot is the root grid where all page content is placed-->
+	<Grid x:Name="LayoutRoot" Background="Transparent">
+		<!--Pivot Control-->
+		<controls:Pivot x:Name="pivot" >
+			<controls:Pivot.TitleTemplate>
+				<DataTemplate>
+					<TextBlock Text="orzech connect" HorizontalAlignment="Left" Width="170" Margin="0,0,0,0" Foreground="{StaticResource TitleGradient}"	FontWeight="Normal"
+					   FontSize="20">
+					</TextBlock>
+				</DataTemplate>
+			</controls:Pivot.TitleTemplate>
+
+			<!--Pivot item one-->
+			<controls:PivotItem Header="Konto">
+				<ScrollViewer VerticalScrollBarVisibility="Hidden" Height="600" VerticalAlignment="Top">
+					<StackPanel Margin="10,0,0,0">
+						<TextBlock Margin="14,0,0,0" Text="Nazwa profilu" Foreground="{StaticResource PhoneGrayBrush}" ></TextBlock>
+						<TextBox  Margin="0,0,0,30" HorizontalAlignment="Left" Width="390" x:Name="Name" TextChanged="Name_TextChanged"></TextBox>
+						<TextBlock Margin="14,0,0,0"  Foreground="{StaticResource PhoneGrayBrush}" Text="Hasło do serwera gadu gadu"></TextBlock>
+						<PasswordBox  Margin="0,0,0,30" HorizontalAlignment="Left" Width="390" x:Name="Password" PasswordChanged="Password_PasswordChanged"></PasswordBox>
+					</StackPanel>
+				</ScrollViewer>
+			</controls:PivotItem>
+
+			<!--Pivot item two-->
+			<controls:PivotItem Header="Statusy">
+				<ScrollViewer VerticalScrollBarVisibility="Hidden" Height="600" VerticalAlignment="Top">
+					<StackPanel Margin="10,0,0,0">
+						<toolkit:ToggleSwitch Header="Po zalogowaniu ustaw" x:Name="setStatusStartupToogle"  Click="controlValueChanged" ></toolkit:ToggleSwitch>
+						<StackPanel Margin="20,-25,0,30" x:Name="ShowIfSetStatusStartupToggled">
+							<ListBox Width="400" Margin="0,10,0,0" x:Name="Statuses"  ItemTemplate="{StaticResource AvailableStatusesTemplate}" SelectionChanged="controlValueChanged">
+							</ListBox>
+							<TextBlock Text="Treść statusu" Margin="4,10,0,0" Foreground="{StaticResource PhoneGrayBrush}"></TextBlock>
+							<TextBox Width="390" HorizontalAlignment="Left"  Margin="0,0,0,0" x:Name="InitialStatus" KeyDown="InitialStatus_KeyDown" TextChanged="controlValueChanged"></TextBox>
+						</StackPanel>
+		
+						<toolkit:ToggleSwitch  Click="controlValueChanged"  Header="Ustaw status przy wstrzymaniu" x:Name="setStatusAfterTombstoneToogle"></toolkit:ToggleSwitch>
+						<StackPanel Margin="20,-25,0,40" x:Name="ShowIfTombstoneStatusToogled">
+							<TextBlock Text="Treść statusu" Margin="14,0,0,0"  Foreground="{StaticResource PhoneGrayBrush}"></TextBlock>
+							<TextBox KeyDown="statusForTombstoning_KeyDown" Width="390" x:Name="statusForTombstoning" HorizontalAlignment="Left" TextChanged="controlValueChanged"></TextBox>
+						</StackPanel>
+						<toolkit:ToggleSwitch Header="Pokazuj status" x:Name="showStatusToAll" Click="controlValueChanged"></toolkit:ToggleSwitch>
+					</StackPanel>
+				</ScrollViewer>
+			</controls:PivotItem>
+
+			
+		</controls:Pivot>
+	</Grid>
+
+	<!--Sample code showing usage of ApplicationBar-->
+	<!--<phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton x:Name="appbar_button1" IconUri="/Images/appbar_button1.png" Text="Button 1"/>
+            <shell:ApplicationBarIconButton x:Name="appbar_button2" IconUri="/Images/appbar_button2.png" Text="Button 2"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem x:Name="menuItem1" Text="MenuItem 1"/>
+                <shell:ApplicationBarMenuItem x:Name="menuItem2" Text="MenuItem 2"/>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>-->
+
+</phone:PhoneApplicationPage>

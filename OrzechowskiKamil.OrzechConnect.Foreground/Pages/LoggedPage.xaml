@@ -1,0 +1,132 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="OrzechowskiKamil.OrzechConnect.Foreground.ViewModels.LoggedPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="728"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="False">
+
+	<phone:PhoneApplicationPage.Resources>
+
+	</phone:PhoneApplicationPage.Resources>
+	
+
+	<!--LayoutRoot is the root grid where all page content is placed-->
+	<Grid x:Name="LayoutRoot" Background="Transparent" Tap="LayoutRoot_Tap">
+		<MediaElement x:Name="sound" AutoPlay="False" Visibility="Collapsed" Volume="1.0" MediaOpened="sound_MediaOpened"/>
+
+		<!--imitacja push notifications-->
+		<Popup x:Name="PushMessagePopup">
+			<StackPanel x:Name="PopupMessageContainer" Visibility="Visible" Background="{StaticResource PhoneAccentBrush}" Height="100" Canvas.ZIndex="100"
+					VerticalAlignment="Top" Orientation="Horizontal" Tap="PopupMessageContainer_Tap">
+				<StackPanel>
+					<Image x:Name="PopupIcon"  Width="48" Height="48" Margin="10,10,10,10" ></Image>
+				</StackPanel>
+				<StackPanel Orientation="Vertical">
+					<TextBlock FontSize="16" FontWeight="Bold" x:Name="PopupMessage" Foreground="White" Margin="0,10,10,0" Width="405" TextWrapping="Wrap" TextTrimming="WordEllipsis"></TextBlock>
+					<TextBlock FontSize="13" x:Name="PopupMessageDesc" Foreground="White" Margin="0,0,10,10" Width="405" Height="50" TextWrapping="Wrap" TextTrimming="WordEllipsis"></TextBlock>
+				</StackPanel>
+				<!--koniec zawartosc stackpanelu-->
+			</StackPanel>
+		</Popup>
+		<!--koniec push notifications-->
+		<!--stack panel progressbara -->
+		<StackPanel x:Name="ProgressBar" Visibility="Collapsed" Canvas.ZIndex="400" Width="480" Height="100"  Margin="4,129,0,0" VerticalAlignment="Top">
+			<TextBlock x:Name="ProgressBarStatusLabel"  Height="32" HorizontalAlignment="Center"  Text="" VerticalAlignment="Top" Width="480" TextTrimming="WordEllipsis" TextWrapping="Wrap" FontSize="16" TextAlignment="Center" />
+			<toolkit:PerformanceProgressBar Name="ProgBar" IsIndeterminate="True" 
+													Foreground="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}" Margin="4,0,0,0"></toolkit:PerformanceProgressBar>
+		</StackPanel>
+		<!--koniec progressbara-->
+		<!--popup do zmiany statusu-->
+		<Popup x:Name="SetStatusPopup" Width="430" Margin="20,100,40,20" VerticalAlignment="Top">
+			<Border BorderThickness="1" BorderBrush="{StaticResource PhoneForegroundBrush}" Padding="10" Background="{StaticResource PhoneChromeBrush}">
+				<StackPanel  Width="415" Margin="0,0,0,0" VerticalAlignment="Top" >
+					<TextBlock Text="Wybierz status" Margin="10,10,10,10" FontSize="40" >
+					</TextBlock>
+					<ListBox x:Name="AvailableStatuses" Margin="15,0,0,0" Tap="AvailableStatuses_Tap" ItemTemplate="{StaticResource AvailableStatusesTemplate}">
+
+					</ListBox>
+					<TextBlock Text="Wpisz opis" Margin="10,10,10,10"  FontSize="40" ></TextBlock>
+					<TextBox Margin="10,0,10,10" x:Name="newDescription" InputScope="Chat" GotFocus="TextBlock_GotFocus" KeyDown="newDescription_KeyDown" LostFocus="TextBlock_LostFocus"></TextBox>
+					<!--<Button Content="Ustaw opis" Width="300" Click="setStatusButtonClick"></Button>-->
+				</StackPanel>
+			</Border>
+		</Popup>
+		<!--koniec popupa do zawartosci statusu-->
+		<!--Pivot Control-->
+		<controls:Pivot  x:Name="pivot"  TitleTemplate="{StaticResource PivotTitleTemplate}" SelectionChanged="Pivot_PageChanged">
+
+			<!--Pivot item one-->
+			<controls:PivotItem Header="kontakty">
+				<StackPanel Orientation="Vertical">
+					<ListBox Height="100" HorizontalAlignment="Left" Margin="18,0,0,0" Name="contactsList" VerticalAlignment="Top" Width="456" 
+					Tap="contactsList_Tap"  >
+						<ListBox.ItemTemplate>
+							<DataTemplate >
+								<StackPanel Orientation="Horizontal" Margin="0,4,10,0" Background="{StaticResource PhoneBackgroundBrush}">
+									<StackPanel Width="48" Height="48" VerticalAlignment="Top">
+										<Canvas Width="48" Height="48">
+											<Image Source="{Binding ImageSource}" Stretch="None" Width="48" Height="48" Canvas.Top="0" Canvas.Left="0" Canvas.ZIndex="9"></Image>
+											<Ellipse Fill="{StaticResource PhoneAccentBrush}" Width="48" Height="48" Canvas.ZIndex="8" Canvas.Left="0" Canvas.Top="0" >
+											</Ellipse>
+										</Canvas>
+									</StackPanel>
+									<StackPanel Orientation="Vertical" Margin="10,0,0,0">
+										<TextBlock Text="{Binding Name}" FontSize="32" Padding="0,0,0,0" Margin="0,2,0,0" Width="360"
+							    TextTrimming="WordEllipsis" TextWrapping="Wrap"></TextBlock>
+										<TextBlock Margin="3,-2,5,0" Text="{Binding StatusDescription}" Foreground="{StaticResource PhoneGrayBrush}" FontSize="14" Width="360" 
+							   TextTrimming="WordEllipsis" TextWrapping="Wrap">
+
+										</TextBlock>
+									</StackPanel>
+									<toolkit:ContextMenuService.ContextMenu>
+										<toolkit:ContextMenu>
+											<toolkit:MenuItem Header="{Binding Number}" />
+											<toolkit:MenuItem Header="Usuń"  Click="DeleteContact_Click"/>
+											<!--<toolkit:MenuItem Header="Edytuj" Click="RemoveContact_Click"/> na razie ukryte, kiedys sie doimplementuje -->
+										</toolkit:ContextMenu>
+									</toolkit:ContextMenuService.ContextMenu>
+								</StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+					<!--Do filtrowania kontaktów-->
+					<StackPanel Background="{StaticResource PhoneBackgroundBrush}" x:Name="FindContacts" VerticalAlignment="Bottom" Height="100"  Margin="0" Orientation="Vertical">
+						<TextBlock Text="Filtruj kontakty po nazwie" FontSize="12" Margin="10,10,0,0"></TextBlock>
+						<TextBox InputScope="Chat" Name="FindContactsTextBox" TextChanged="FindContactsTextBox_TextChanged" KeyDown="FindContactsTextBox_KeyUp" Width="450" FontSize="30"></TextBox>
+					</StackPanel>
+					<!--koniec do filtrowania kontaktow-->
+				</StackPanel>
+			</controls:PivotItem>
+
+			<!--<controls:Pivot.Background>
+				<ImageBrush ImageSource="/Metro%20Gadu;component/Images/kot.jpg" Stretch="None" AlignmentX="Left"/>
+			</controls:Pivot.Background>-->
+		</controls:Pivot>
+
+	</Grid>
+
+	<!--application Bar-->
+	<phone:PhoneApplicationPage.ApplicationBar>
+		<shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+			<shell:ApplicationBarIconButton x:Name="contactsButton" IconUri="/Images/Metro/AppBar/OpacityMask/contact_book.png" Text="szukaj" Click="contactsButton_Click"/>
+			<!--<shell:ApplicationBarIconButton x:Name="closeButton" IconUri="/Images/ab_cross.png" Text="zamknij" IsEnabled="false" Click="closeButton_Click"/>-->
+			<shell:ApplicationBarIconButton  x:Name="statusButton"  IconUri="/Images/Metro/AppBar/OpacityMask/contact_book.png" Text="status" Click="statusButton_Click"></shell:ApplicationBarIconButton>
+			<!--<shell:ApplicationBarIconButton x:Name="settingsButton" IconUri="/Images/ab_settings.png" Text="status" Click="settingsButton_Click"/>-->
+			<shell:ApplicationBar.MenuItems>
+				<shell:ApplicationBarMenuItem x:Name="addContact" Text="dodaj kontakt" Click="addContact_Click"/>
+				<!--<shell:ApplicationBarMenuItem x:Name="menuItem2" Text="MenuItem 2"/>-->
+			</shell:ApplicationBar.MenuItems>
+		</shell:ApplicationBar>
+	</phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>

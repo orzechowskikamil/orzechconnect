@@ -1,0 +1,24 @@
+﻿Lista wazniejszych rzeczy do zrobienia:
+
+-emoty
+-landscape
+-ladniejsze tiles na bitmapach
+-wygaszacz
+-statusy tylko dla znajomych
+-archiwum albo chociaz ostatnie wiadomosci
+
+
+mniej wazne rzeczy:
+-zmiana czasu czekania na  wygaszacz.
+-zmiana statusow przewija liste kontaktow na koniec, popraw
+-moze mozliwosc zdefiniowania wlasnych emotek
+-nie chowaj klawiatury po wyswietleniu wiadomosci i rozciagaj textbox
+-dodaj timer sprawdzajacy czy sie nie rozlaczyl
+-sledz pakiety ACK
+-zmien do utworzenia konta link na przycisk albo w ogole dodaj webserwis
+-niech uzywa ostatnio sciagnietego adresu serwera
+-dodaj tapete i mozliwosc jej zmiany
+-wyswietlanie emotow w oknie rozmowy
+-przejscie do rozmowy po nacisnieciu nieprzeczytanej koperty
+-przycisk wycisz/nie wibruj 
+-moze agent na audio 

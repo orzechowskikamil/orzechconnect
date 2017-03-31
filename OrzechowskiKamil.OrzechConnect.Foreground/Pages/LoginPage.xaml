@@ -1,0 +1,168 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="OrzechowskiKamil.OrzechConnect.Foreground.ViewModels.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="False">
+	<phone:PhoneApplicationPage.Resources>
+	</phone:PhoneApplicationPage.Resources>
+
+	<!--LayoutRoot contains the root grid where all other page content is placed-->
+	<Grid x:Name="LayoutRoot" >
+		<controls:Panorama Title="orzech connect" AllowDrop="False" UseLayoutRounding="True"
+						   TitleTemplate="{StaticResource MainTitleTemplate}" SelectionChanged="Panorama_SelectionChanged">
+			<controls:PanoramaItem Header="profile">
+				<Grid>
+					<TextBlock x:Name="statusLabel" Visibility="Collapsed" Height="32" HorizontalAlignment="Center" Margin="4,416,0,0"  Text="" VerticalAlignment="Top" Width="417" TextTrimming="WordEllipsis" TextWrapping="Wrap" FontSize="16" TextAlignment="Center" />
+					<toolkit:PerformanceProgressBar Name="ProgressBar" IsIndeterminate="True" 
+													Visibility="{Binding ProgressBarVisibility}"
+													Foreground="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}" Margin="4,401,0,0"></toolkit:PerformanceProgressBar>
+					<Grid x:Name="listBoxContainer">
+						<TextBlock x:Name="txtNoItems"  Canvas.ZIndex="100" FontSize="22"
+								   Margin="10,0,10,10" TextWrapping="Wrap" TextTrimming="WordEllipsis"
+								   VerticalAlignment="Top"		Visibility="Visible"	Text="Aby korzystać z komunikatora potrzebujesz profilu użytkownika. &#x0a;&#x0a;Jeżeli już posiadasz swoje konto GG, przesuń w prawo i dodaj profil z danymi do swojego konta.&#x0a;&#x0a;Jeżeli jeszcze nie posiadasz konta GG, musisz dodatkowo zarejestrować nowe konto GG.&#x0a;&#x0a;Po utworzeniu profilu możesz go oznaczyć jako domyślnym aby logował się automatycznie przy starcie programu za pomocą menu kontekstowego." >
+						</TextBlock>
+
+						<ListBox Height="410" HorizontalAlignment="Left" Margin="18,-2,0,0" Name="loginListBox" VerticalAlignment="Top" Width="417" SelectionChanged="loginListBox_SelectionChanged" Tap="loginListBox_Tap">
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal" Margin="0,0,0,10" Width="380" Background="{StaticResource PhoneBackgroundBrush}">
+										<StackPanel Margin="0,0,0,-10" Orientation="Horizontal">
+											<Canvas Width="64" Height="64">
+												<Ellipse Fill="{Binding RectangleColor}" Width="64" Height="64" Margin="0,0,10,0" Canvas.Left="0" Canvas.Top="0" Canvas.ZIndex="0">
+												</Ellipse>
+												<Image Source="{Binding ImageName}" Width="64" Height="64" Canvas.Left="0" Canvas.Top="0" Canvas.ZIndex="20"></Image>
+											</Canvas>
+										</StackPanel >
+										<StackPanel Orientation="Vertical" Margin="10,0,0,0">
+											<TextBlock Text="{Binding AccountName}" FontSize="64"></TextBlock>
+											<TextBlock Margin="0,-2,0,0" Foreground="{StaticResource PhoneAccentBrush}" Text="{Binding AccountNumber}"></TextBlock>
+										</StackPanel>
+										<toolkit:ContextMenuService.ContextMenu>
+											<toolkit:ContextMenu IsFadeEnabled="True">
+												<toolkit:MenuItem Header="Ustawienia profilu" Click="LoginProfilesList_Edit"/>
+												<toolkit:MenuItem Header="Usuń profil" Click="LoginProfilesList_Remove" />
+												<toolkit:MenuItem Header="{Binding SetAsDefaultLabel}" Click="LoginProfilesList_SetAsDefault" />
+											</toolkit:ContextMenu>
+										</toolkit:ContextMenuService.ContextMenu>
+
+									</StackPanel>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+					</Grid>
+				</Grid>
+			</controls:PanoramaItem>
+			<controls:PanoramaItem Header="ustawienia">
+				<StackPanel>
+					<ScrollViewer VerticalScrollBarVisibility="Hidden" Height="500">
+						<Grid>
+							<StackPanel >
+
+								<toolkit:ToggleSwitch Header="Wibracje" x:Name="vibrationsEnabled" Click="ToggleSwitch_Click"></toolkit:ToggleSwitch>
+								<!--<TextBlock Margin="10,-25,0,20" TextWrapping="Wrap" Text="Włącza lub wyłącza wszystkie wibracje w aplikacji."></TextBlock>-->
+
+								<toolkit:ToggleSwitch Header="Dźwięki" x:Name="soundsEnabled" Click="ToggleSwitch_Click"></toolkit:ToggleSwitch>
+								<!--<TextBlock Margin="10,-25,0,20" TextWrapping="Wrap" Text="Włącza lub wyłącza wszystkie dźwięki w aplikacji."></TextBlock>-->
+
+								<toolkit:ToggleSwitch Header="Powiadomienia" x:Name="annoucementsEnabled" Click="ToggleSwitch_Click"></toolkit:ToggleSwitch>
+								<TextBlock x:Name="AnnoucementsDescription" Margin="10,-25,0,20" TextWrapping="Wrap" Text="Włączenie tej opcji spowoduje że na ekranie nie będą się pojawiać wyskakujące powiadomienia o nowych wiadomościach lub zmianie statusu przez znajomych."></TextBlock>
+								<toolkit:ToggleSwitch Header="Agent Live Tiles" x:Name="agentEnabled" Click="ToggleSwitch_Click"></toolkit:ToggleSwitch>
+								<TextBlock Margin="10,-25,0,20" x:Name="AgentLiveTilesDescription" TextWrapping="Wrap" Text="Co określony interwał czasu będzie się uruchamiał agent który będzie sprawdzał czy nie otrzymałeś nowych wiadomości."></TextBlock>
+								<TextBlock Margin="10,10,10,10" x:Name="noUserDefaultDescription" TextWrapping="Wrap" Foreground="{StaticResource PhoneAccentBrush}" Text="Nie ustawiłeś żadnego profilu użytkownika profilem domyślnym. Dopóki tego nie zrobisz, wiadomości nie będą odbierane automatycznie."></TextBlock>
+								<toolkit:ToggleSwitch Header="Przygaś ekran gdy bezczynny" Margin="0,10,0,0" x:Name="enableIdleDetection" Click="ToggleSwitch_Click"></toolkit:ToggleSwitch>
+								<StackPanel Margin="10,-25,0,30" >
+									<RichTextBox x:Name="disableScreenEnabled" TextAlignment="Left" TextWrapping="Wrap">
+										<Paragraph>Aplikacja po kilku minutach bezczynności przejdzie w tryb idle by oszczędzać baterię. Niestety nie będziesz mógł wtedy odbierać ani wysyłać wiadomości oraz zostaniesz wylogowany, do czasu aż nie włączysz ekranu ponownie.</Paragraph>
+									</RichTextBox>
+									<RichTextBox x:Name="disableScreenDisabled" TextAlignment="Left" TextWrapping="Wrap">
+										<Paragraph>Aplikacja nie pozwala na zablokowanie ekranu. Będzie wyświetlać wygaszacz po paru minutach nieaktywności, ale będzie zdolna na bieżąco odbierać wiadomości i nie zostaniesz wylogowany. Bateria może wyczerpywać się szybciej niż gdy telefon ma zablokowany ekran.</Paragraph>
+									</RichTextBox>
+								</StackPanel>
+								<Button Content="Więcej opcji" Click="Button_Click" Margin="0,0,0,35"></Button>
+							</StackPanel>
+						</Grid>
+					</ScrollViewer>
+				</StackPanel>
+			</controls:PanoramaItem>
+			<controls:PanoramaItem Header="nowy profil">
+				<ScrollViewer VerticalScrollBarVisibility="Hidden">
+					<StackPanel>
+						<TextBlock Height="30" Margin="14,0,0,0" HorizontalAlignment="Left" Foreground="{StaticResource PhoneGrayBrush}" Name="textBlock2" Text="Nazwa profilu"  />
+						<TextBox Height="72" HorizontalAlignment="Left" Margin="0,0,0,30" Name="textBox1" Text=""  Width="416" KeyDown="textBox1_KeyDown" />
+						<TextBlock Height="30" Margin="14,0,0,0"  Foreground="{StaticResource PhoneGrayBrush}" HorizontalAlignment="Left"  Name="textBlock3" Text="Numer GG" />
+						<TextBox Height="72" KeyDown="textBox2_KeyDown" HorizontalAlignment="Left" Margin="0,0,0,30" Name="textBox2" Text=""  Width="414">
+							<TextBox.InputScope>
+								<InputScope>
+									<InputScopeName NameValue="Number"/>
+								</InputScope>
+							</TextBox.InputScope>
+						</TextBox>
+						<TextBlock Height="30" Margin="14,0,0,0"  Foreground="{StaticResource PhoneGrayBrush}" HorizontalAlignment="Left"  Name="textBlock4" Text="Hasło GG"  />
+						<PasswordBox Height="72" KeyDown="textBox3_KeyDown" HorizontalAlignment="Left" Margin="0,0,0,30" Name="textBox3"  Width="414" />
+						<Button Content="Utwórz profil" Height="72" HorizontalAlignment="Left"  Name="button1" VerticalAlignment="Top" Width="421" Click="button1_Click" />
+					</StackPanel>
+				</ScrollViewer>
+			</controls:PanoramaItem>
+			<controls:PanoramaItem Header="nowe konto">
+				<Grid>
+					<TextBlock Height="478" HorizontalAlignment="Left" Name="textBlock1" Text="{Binding MakeNewAccountText}" VerticalAlignment="Top" Width="420" FontSize="20" TextWrapping="Wrap" TextTrimming="WordEllipsis" />
+					<HyperlinkButton NavigateUri="{Binding HyperlinkLink}" Content="{Binding HyperlinkText}" TargetName="_blank"/>
+				</Grid>
+			</controls:PanoramaItem>
+	
+			<controls:PanoramaItem Header="o aplikacji">
+				<ScrollViewer>
+					<StackPanel>
+						<TextBlock Foreground="{StaticResource TitleGradient}" Margin="12,0,0,0" FontSize="56">orzech connect</TextBlock>
+						<RichTextBox  TextWrapping="Wrap" Margin="0,0,20,0" TextAlignment="Justify">
+							<Paragraph>
+								<Bold>Wersja 1.0 beta</Bold>
+								<LineBreak/>
+							</Paragraph>
+							<Paragraph>Celem komunikatora jest umożliwienie dostępu dla użytkowników WP7 do różnych sieci komunikatorów, które są popularne na terenie Polski, oferując przyjazny, dopasowany wizualnie do reszty systemu interfejs użytkownika w stylu Metro UI. Docelowo komunikator będzie obsługiwał kilka najpopularniejszych sieci, jednak na razie dostępna jest tylko sieć Gadu Gadu.
+								<LineBreak/>
+							</Paragraph>
+							<Paragraph>Ponieważ to pierwsza wersja programu, to normalne że mogą pojawić się błędy wieku dziecięcego. Wszystkie błędy zostaną szybko usunięte jeśli tylko będę o nich wiedział. Jeżeli chcesz przesłać mi jakiekolwiek sugestie na temat działania, wyglądu aplikacji lub błędów, proszę o kontakt pod podanym mailem, lub wpisywanie swoich uwag w recenzjach na Marketplace.
+								<LineBreak/>
+							</Paragraph>
+							<Paragraph>Program jest, i będzie bezpłatny. Będzie z pewnością dalej rozwijany, gdyż to moje oczko w głowie jeśli chodzi o WP7. Pierwotnie nawet miałem go nie upubliczniać bo pisałem go dla siebie.
+Jednak nie jestem w stanie zapewnić jak częste będą aktualizacje, ponieważ robie go w wolnym czasie którego zazwyczaj mi brak :)
+								<LineBreak/>
+							</Paragraph>
+							<Paragraph>
+								Autor:
+								<Bold>Kamil Orzechowski</Bold>
+								<LineBreak/>
+							</Paragraph>
+							<Paragraph>mail:
+								<Bold>orzechowski.kamil@pollub.edu.pl</Bold>
+								
+							</Paragraph>
+							<Paragraph>GG: (tutaj też można zgłaszać błędy)
+								<Bold>2271216</Bold>
+								<LineBreak/>
+							</Paragraph>
+						</RichTextBox>
+					</StackPanel>
+				</ScrollViewer>
+			</controls:PanoramaItem>
+			<!--<controls:Panorama.Background>
+				<ImageBrush ImageSource="/Metro%20Gadu;component/Images/kot.jpg" />
+			</controls:Panorama.Background>-->
+		</controls:Panorama>
+	</Grid>
+
+	<!--Panorama-based applications should not show an ApplicationBar-->
+
+</phone:PhoneApplicationPage>

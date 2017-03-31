@@ -1,0 +1,123 @@
+﻿<Application 
+    x:Class="OrzechowskiKamil.OrzechConnect.Foreground.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+	xmlns:msg="clr-namespace:OrzechowskiKamil.OrzechConnect.Foreground"
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
+
+	<!--Application Resources-->
+	<Application.Resources>
+		<!--Gradient do tytułów-->
+		<LinearGradientBrush x:Key="TitleGradient" StartPoint="0,0" EndPoint="1,0">
+			<GradientStop Color="{StaticResource PhoneRelativeAccentColor}" Offset="0.0" />
+			<GradientStop Color="{StaticResource PhoneRelativeOppositeAccentColor}" Offset="0.5" />
+			<GradientStop Color="{StaticResource PhoneRelativeAccentColor}" Offset="1.0" />
+		</LinearGradientBrush>
+		
+		<DataTemplate x:Name="AvailableStatusesTemplate">
+			<StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+				<Image Source="{Binding StatusImagePath}" Width="48" Height="48"></Image>
+				<TextBlock  FontSize="30" Text="{Binding StatusName}" Margin="10,0,0,0"></TextBlock>
+			</StackPanel>
+		</DataTemplate>
+		
+		<!--tytuł dla panoram (styl)-->
+		<DataTemplate x:Name="MainTitleTemplate">
+			<TextBlock Text="{Binding}" Foreground="{StaticResource TitleGradient}">
+			</TextBlock>
+		</DataTemplate>
+
+		<!--tytul dla zwyklego pivota-->
+		<DataTemplate x:Name="NormalPivotTitleTemplate">
+			<TextBlock Text="orzech connect" Width="170" Margin="0,0,0,0" Foreground="{StaticResource TitleGradient}"	FontWeight="Normal"
+					   FontSize="20">
+			</TextBlock>
+		</DataTemplate>
+
+
+		<!--tytuł dla pivota glownego (styl)-->
+		<!--Foreground="{StaticResource TitleGradient}"-->
+		<DataTemplate x:Key="PivotTitleTemplate">
+			<StackPanel Orientation="Horizontal" Width="480">
+				<TextBlock Text="orzech connect" Width="170" Margin="0,0,0,0" Foreground="{StaticResource TitleGradient}"	FontWeight="Normal"
+					   FontSize="20">
+				</TextBlock>
+				<StackPanel Visibility="{Binding Visibility}" Orientation="Horizontal" HorizontalAlignment="Right" Width="100" Margin="200,0,0,0">
+					<!--Ikonka poczty zmieniajaca kolor-->
+					<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+						<!--<Border Background="White" Width="22" Height="17">-->
+						<Rectangle Width="22" Height="17" Fill="{StaticResource PhoneAccentBrush}" HorizontalAlignment="Right" Margin="0,2,0,0" Canvas.ZIndex="5">
+							<Rectangle.OpacityMask>
+								<ImageBrush Stretch="None" ImageSource="{StaticResource MessageAnnoucementImageSourcePath}" AlignmentX="Center" AlignmentY="Center"></ImageBrush>
+							</Rectangle.OpacityMask>
+						</Rectangle>
+						<!--</Border>-->
+					</StackPanel>
+					<!--koniec ikonki poczty zmieniajacej kolor-->
+					<TextBlock Text="{Binding Text}" FontSize="20" TextTrimming="WordEllipsis" Foreground="{StaticResource PhoneAccentBrush}" Margin="7,0,0,0" TextAlignment="Right"></TextBlock>
+				</StackPanel>
+			</StackPanel>
+		</DataTemplate>
+
+
+		<!--Template pojedynczej wiadomosci-->
+		<DataTemplate x:Key="MessagesTemplate">
+			<StackPanel Orientation="Vertical" Margin="0,0,0,0" Width="440">
+				<StackPanel Height="15">
+					<Polygon Fill="{Binding Color}" Visibility="{Binding VisibilityOfTopTriangle}"
+						 Margin="20,0,0,0" HorizontalAlignment="Left">
+						<Polygon.Points>
+							<Point X="0" Y="0" />
+							<Point X="0" Y="15" />
+							<Point X="15" Y="15" />
+						</Polygon.Points>
+					</Polygon>
+				</StackPanel>
+				<StackPanel Background="{Binding Color}" HorizontalAlignment="{Binding AlignmentOfMessage}" Width="390">
+					<TextBlock Foreground="White" Text="{Binding MessageContent}"
+						   Margin="10,5,10,5" Width="370" TextWrapping="Wrap" TextTrimming="WordEllipsis"></TextBlock>
+					<TextBlock Text="{Binding DateFormatted}" FontSize="15" HorizontalAlignment="Right"
+						 Margin="1,1,10,5" Foreground="#DDDDDD">
+
+					</TextBlock>
+				</StackPanel>
+				<StackPanel Height="15">
+					<Polygon Fill="{Binding Color}" Visibility="{Binding VisibilityOfBottomTriangle}"
+						  Margin="0,0,20,0" HorizontalAlignment="Right">
+						<Polygon.Points>
+							<Point X="0" Y="0" />
+							<Point X="15" Y="0" />
+							<Point X="15" Y="15" />
+						</Polygon.Points>
+					</Polygon>
+				</StackPanel>
+			</StackPanel>
+		</DataTemplate>
+
+
+
+		<!--Template rozmowy z jakims kontaktem-->
+		<DataTemplate x:Key="ConversationPivotPage">
+			<StackPanel Orientation="Vertical">
+				<ListBox  Height="450" Width="460" Name="messagesListBox" ItemTemplate="{StaticResource MessagesTemplate}"
+					ItemsSource="{Binding Messages}" >
+				</ListBox>
+				<StackPanel Margin="0,10,0,0">
+					<TextBox Width="415" KeyUp="sendMessageTextBox_KeyUp" InputScope="Chat" GotFocus="sendMessageTextBox_GotFocus" LostFocus="sendMessageTextBox_LostFocus" HorizontalAlignment="Right" Name="sendMessageTextBox" Tag="{Binding GGNumber}" ></TextBox>
+				</StackPanel>
+			</StackPanel>
+		</DataTemplate>
+
+
+	</Application.Resources>
+	<Application.ApplicationLifetimeObjects>
+		<!--Required object that handles lifetime events for the application-->
+		<shell:PhoneApplicationService 
+            Launching="Application_Launching" Closing="Application_Closing" 
+            Activated="Application_Activated" Deactivated="Application_Deactivated"
+			/>
+	</Application.ApplicationLifetimeObjects>
+
+</Application>
